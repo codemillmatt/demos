@@ -45,7 +45,7 @@ provider "azurerm" {
 
 resource "azurerm_public_ip" "azlabpublicip" {
     name                         = "azlabpublicip"
-    location                     = "eastus"
+    location                     = var.location
     resource_group_name          = var.resource_group_name
     allocation_method   = "Static"
     sku                 = "Standard"
@@ -56,6 +56,7 @@ resource "azurerm_public_ip" "azlabpublicip" {
 resource "azurerm_bastion_host" "azlabbastion" {
   name                = "azlabbastion"
   resource_group_name = var.resource_group_name
+  location            = var.location
 
   ip_configuration {
     name                 = "configuration"
@@ -67,14 +68,14 @@ resource "azurerm_bastion_host" "azlabbastion" {
 # Add Network Security Group
   resource "azurerm_network_security_group" "azlab" {
     name                = "azlabnsg"
-    location            = "eastus"
+    location            = var.location
     resource_group_name = var.resource_group_name
 
 }
 # Create Network interfaces
   resource "azurerm_network_interface" "azlabni01" {
     name                        = "azlabni01"
-    location                    = "eastus"
+    location                    = var.location
     resource_group_name         = var.resource_group_name
 
     ip_configuration {
